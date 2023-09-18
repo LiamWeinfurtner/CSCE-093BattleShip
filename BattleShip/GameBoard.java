@@ -18,30 +18,35 @@ public class GameBoard
 		
 		//create the 2D array of cells
 	}
-	
+	  
+    
+	//TODO: Write function
 	public String draw()
 	{
 
 		//draw the entire board... I'd use a StringBuilder object to improve speed
 		//remember - you must draw one entire row at a time, and don't forget the
 		//pretty border...
+		return "test";
 	}
 	
 	//add in a ship if it fully 1) fits on the board and 2) doesn't collide w/
 	//an existing ship.
 	//Returns true on successful addition; false, otherwise
+	//TODO: Write function
 	public boolean addShip( Ship s , Position sternLocation, HEADING bowDirection )
 	{
-		
+		return true;
 	}
 	
 	//Returns A reference to a ship, if that ship was struck by a missle.
 	//The returned ship can then be used to print the name of the ship which
 	//was hit to the player who hit it.
 	//Ensure you handle missiles that may fly off the grid
+	//TODO: Write function
 	public Ship fireMissle( Position coordinate )
 	{
-		
+		return (new Destroyer("name"));
 	}
 	
 	//Here's a simple driver that should work without touching any of the code below this point

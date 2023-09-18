@@ -9,8 +9,10 @@ public class Cell
 	{		
 	}
 	
+	// FIXME: Write function
 	public boolean hasBeenStruckByMissile()
 	{
+		return false;
 	}
 	
 	public void hasBeenStruckByMissile( boolean wasStruck )

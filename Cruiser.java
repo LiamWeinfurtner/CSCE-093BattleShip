@@ -1,3 +1,0 @@
-package BattleShip;
-
-I'm a cruiser and I should inherit a ship...
