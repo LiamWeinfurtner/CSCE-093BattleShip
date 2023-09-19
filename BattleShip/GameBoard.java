@@ -11,10 +11,14 @@ public class GameBoard
 	ArrayList< ArrayList< Cell > > cells;
 	ArrayList< Ship > myShips = new ArrayList<Ship>();
 	
-	public GameBoard( int rowCount, int colCount )
+	//Constructor for GameBoard
+	public GameBoard(int rowCount, int colCount)
 	{
 		this.rowCount = rowCount;
 		this.colCount = colCount;
+
+		// Create a 2D array containing Cell objects
+		Cell[][] board = new Cell[rowCount][colCount];
 		
 		//create the 2D array of cells
 		int x = 0;
@@ -23,7 +27,7 @@ public class GameBoard
 		{
 			for (y=0; y<colCount; y++)
 			{
-				
+				board[x][y] = new Cell();
 			}
 		}
 	}
@@ -43,7 +47,7 @@ public class GameBoard
 	//an existing ship.
 	//Returns true on successful addition; false, otherwise
 	//TODO: Write function
-	public boolean addShip( Ship s , Position sternLocation, HEADING bowDirection )
+	public boolean addShip(Ship s, Position sternLocation, HEADING bowDirection)
 	{
 		return true;
 	}

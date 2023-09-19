@@ -138,7 +138,6 @@ public class Client
 			{
 				ship = new Destroyer(name);
 			}
-
 			else if (shipClass.equals("C"))
 			{
 				ship = new Cruiser(name);
