@@ -22,7 +22,6 @@ public class GameManager
 	//Returns a client reference to the opponent. This way, we can inspect attributes
 	//and send messages between clients... Each client has a reference to the GameManager
 	//so a client is able to use this method to get a reference to his opponent
-	//TODO: Write function
 	public Client getOpponent( Client me )
 	{
 		// Look into one of the clients, if it is the current client, return the other. If it is not, return that one
@@ -103,7 +102,7 @@ public class GameManager
 				}
 				finally
 				{
-					
+					System.out.println("Both player clients have been initialized.");
 				}
 			}
 		);

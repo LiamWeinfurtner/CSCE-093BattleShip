@@ -17,6 +17,15 @@ public class GameBoard
 		this.colCount = colCount;
 		
 		//create the 2D array of cells
+		int x = 0;
+		int y = 0;
+		for (x=0; x<rowCount; x++)
+		{
+			for (y=0; y<colCount; y++)
+			{
+				
+			}
+		}
 	}
 	  
     
