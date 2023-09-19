@@ -8,17 +8,18 @@ public class GameBoard
 	
 	final String LINE_END = System.getProperty("line.separator"); 
 	
-	ArrayList< ArrayList< Cell > > cells;
+	//Commented out the ArrayList implementation in favor of the 2D array implementation. 
+	//ArrayList<ArrayList<Cell>> cells;
 	ArrayList< Ship > myShips = new ArrayList<Ship>();
 	
+	// Create a 2D array containing Cell objects. Coordinate corresponds to location in the array
+	Cell[][] board = new Cell[rowCount][colCount];
+
 	//Constructor for GameBoard
 	public GameBoard(int rowCount, int colCount)
 	{
 		this.rowCount = rowCount;
 		this.colCount = colCount;
-
-		// Create a 2D array containing Cell objects
-		Cell[][] board = new Cell[rowCount][colCount];
 		
 		//create the 2D array of cells
 		int x = 0;
@@ -27,7 +28,7 @@ public class GameBoard
 		{
 			for (y=0; y<colCount; y++)
 			{
-				board[x][y] = new Cell();
+				this.board[x][y] = new Cell();
 			}
 		}
 	}
@@ -40,7 +41,43 @@ public class GameBoard
 		//draw the entire board... I'd use a StringBuilder object to improve speed
 		//remember - you must draw one entire row at a time, and don't forget the
 		//pretty border...
-		return "test";
+		StringBuilder boardDrawer = new StringBuilder(LINE_END);
+
+		// Draw top border
+		for (int i=-1; i<=this.colCount; i++)
+		{
+			if (i==-1) boardDrawer.append("+");
+			else if (i==this.colCount) boardDrawer.append("+");
+			else boardDrawer.append("-");
+		}
+		boardDrawer.append(LINE_END);
+
+		// Draw out the game board. Iterate through each cell and append StringBuilder with its draw() method
+		for (int i=0; i<this.rowCount; i++)
+		{
+			for (int j=-1; j<this.colCount; j++)
+			{
+				if ((j == -1) || (j == this.colCount)) {boardDrawer.append('|');}
+				else 
+				{
+					Cell c = this.board[i][j];
+					boardDrawer.append(c.draw());
+				}
+			}
+			// Row done, move to next row
+			boardDrawer.append(LINE_END);
+		}
+
+		// Draw bottom border
+		for (int i=-1; i<=this.colCount; i++)
+		{
+			if (i==-1) boardDrawer.append("+");
+			else if (i==this.colCount) boardDrawer.append("+");
+			else boardDrawer.append("-");
+		}
+		boardDrawer.append(LINE_END);
+
+		return boardDrawer.toString();
 	}
 	
 	//add in a ship if it fully 1) fits on the board and 2) doesn't collide w/
