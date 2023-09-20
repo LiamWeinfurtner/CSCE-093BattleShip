@@ -86,6 +86,76 @@ public class GameBoard
 	//TODO: Write function
 	public boolean addShip(Ship s, Position sternLocation, HEADING bowDirection)
 	{
+		int shipLength = s.getLength();
+		
+		// ArrayList will store all "Positions" of the ship first to compare things against
+		ArrayList<Position> shipSpawn = new ArrayList<Position>();
+
+		// Add the stern location to the shipSpawn, then extrude out the length in the opposite of the bowDirection
+		shipSpawn.add(sternLocation);
+		if (bowDirection == HEADING.NORTH)
+		{
+			for (int i=0; i<shipLength; i++)
+			{
+				shipSpawn.add(new Position(sternLocation.x, sternLocation.y-i));
+			}
+		}
+		else if (bowDirection == HEADING.EAST)
+		{
+			for (int i=0; i<shipLength; i++)
+			{
+				shipSpawn.add(new Position(sternLocation.x-i, sternLocation.y));
+			}
+		}
+		else if (bowDirection == HEADING.SOUTH)
+		{
+			for (int i=0; i<shipLength; i++)
+			{
+				shipSpawn.add(new Position(sternLocation.x+i, sternLocation.y));
+			}
+		}
+		else if (bowDirection == HEADING.WEST)
+		{
+			for (int i=0; i<shipLength; i++)
+			{
+				shipSpawn.add(new Position(sternLocation.x, sternLocation.y+i));
+			}
+		}
+
+		// Now that we have the location of the ship, check to make sure that it is on the game board
+		for (Position checkPosition : shipSpawn)
+		{
+			// Check if too small
+			if ((checkPosition.x < 0) || (checkPosition.y < 0))
+			{
+				return false;
+			}
+			
+			// Check if too big
+			if ((checkPosition.x > rowCount-1) || (checkPosition.y > colCount-1));
+			{
+				return false;
+			}
+		}
+
+		// Ship is on the board, make sure no other ships already exist in those locations
+		for (Position checkPosition : shipSpawn)
+		{
+			// Grab cell at each position the ship will be spawned at
+			Cell checkCell = board[checkPosition.x][checkPosition.y];
+			// Check if ship exists at that position and return false if one does
+			if (checkCell.getShip() != null)
+			{
+				return false;
+			}
+		}
+
+		// If we made it this far, that means the ship will spawn on the board and without any collisions. Spawn the ship!
+		for (Position spawnPosition : shipSpawn)
+		{
+			board[spawnPosition.x][spawnPosition.y].setShip(s);
+		}
+
 		return true;
 	}
 	

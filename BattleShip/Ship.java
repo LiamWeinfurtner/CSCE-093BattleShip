@@ -2,6 +2,7 @@ package BattleShip;
 
 import java.util.ArrayList;
 
+
 abstract public class Ship
 {
 	protected ArrayList< Cell > position = null;
@@ -21,6 +22,10 @@ abstract public class Ship
 	
 	public abstract int getLength();
 	
+	
+	/** 
+	 * @return boolean
+	 */
 	public boolean isAlive()
 	{
 		for( Cell c : this.position )
