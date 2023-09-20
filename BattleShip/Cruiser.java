@@ -13,13 +13,18 @@ public class Cruiser extends Ship
     //TODO: Write function
     public int getLength()
     {
-        return 1;
+        return 4;
     }
 
     //TODO: Write function
     public char drawShipStatusAtCell(boolean isDamanged)
     {
-        return 'a';
+        // Return lowercase if damaged, uppercase if not
+        if (isDamanged)
+        {
+            return 'c';
+        }
+        else return 'C';
     }
 
 

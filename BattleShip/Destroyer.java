@@ -11,12 +11,17 @@ class Destroyer extends Ship
 
     public int getLength()
     {
-        return 1;
+        return 3;
     }
 
     public char drawShipStatusAtCell(boolean isDamanged)
     {
-        return 'a';
+        // Return lowercase if damaged, uppercase if not
+        if (isDamanged)
+        {
+            return 'd';
+        }
+        else return 'D';
     }
 
 

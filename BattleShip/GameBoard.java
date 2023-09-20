@@ -83,7 +83,6 @@ public class GameBoard
 	//add in a ship if it fully 1) fits on the board and 2) doesn't collide w/
 	//an existing ship.
 	//Returns true on successful addition; false, otherwise
-	//TODO: Write function
 	public boolean addShip(Ship s, Position sternLocation, HEADING bowDirection)
 	{
 		int shipLength = s.getLength();
