@@ -237,8 +237,6 @@ public class GameBoard
 		
 		System.out.println( b.draw() );
 
-		//-----------------------------------------
-		//Everthing above this line is implemented and works
 		
 		b.fireMissle( new Position(3,5) );
 		System.out.println( b.draw() );
@@ -255,6 +253,9 @@ public class GameBoard
 		
 		b.fireMissle( new Position(6,6) );
 		System.out.println( b.draw() );
+
+		//-----------------------------------------
+		//Everthing above this line is implemented and works
 	}
 
 }

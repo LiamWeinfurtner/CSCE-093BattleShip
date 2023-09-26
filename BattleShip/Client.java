@@ -45,6 +45,14 @@ public class Client
 	//Returns a bool, true iff all of this client's ships are destroyed
 	boolean allMyShipsAreDestroyed()
 	{
+		for (Ship ship : board.myShips)
+		{
+			if (!ship.isAlive())
+			{
+				return true;
+			}
+		}
+
 		return false;
 	}
 
@@ -52,6 +60,13 @@ public class Client
 	//TODO: Write function
 	boolean allEnemyShipsAreDestroyed()
 	{
+		for (Ship ship : targets.myShips)
+			{
+				if (!ship.isAlive())
+				{
+					return true;
+				}
+			}
 		return false;
 	}
 
