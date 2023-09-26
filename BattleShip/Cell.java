@@ -9,16 +9,29 @@ public class Cell
 	{		
 	}
 	
-	// FIXME: Write function
+	/**
+	 * Returns boolean to check if Position has been struck.
+	 * @return
+	 */
 	public boolean hasBeenStruckByMissile()
 	{
-		return false;
+		return this.struckByMissle;
 	}
 	
+	/**
+	 * Pass boolean value for whether the Position was struck.
+	 * @param wasStruck
+	 */
 	public void hasBeenStruckByMissile( boolean wasStruck )
 	{	
+		this.struckByMissle = wasStruck;
 	}
 	
+	/**
+	 * Draws the value at the Position. If no ship exists at the Position and it was struck, draw an 'x'. If
+	 * a ship does exist, call the ship's draw function to draw itself.
+	 * @return If no ship exists, 'x' if struck or ' ' if not struck. Else return drawShipStatusAtCell().
+	 */
 	public char draw()
 	{
 		if( this.ship == null )

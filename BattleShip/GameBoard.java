@@ -32,9 +32,11 @@ public class GameBoard
 			}
 		}
 	}
-	  
-    
-	//TODO: Write function
+	
+	/**
+	 * Draws the gameboard complete with ship locations and positions struck.
+	 * @return
+	 */
 	public String draw()
 	{
 
@@ -82,9 +84,13 @@ public class GameBoard
 		return boardDrawer.toString();
 	}
 	
-	//add in a ship if it fully 1) fits on the board and 2) doesn't collide w/
-	//an existing ship.
-	//Returns true on successful addition; false, otherwise
+	/**
+	 * Spawn a ship on the board if the ship fits on the board and does not collide with existing ships.
+	 * @param s
+	 * @param sternLocation
+	 * @param bowDirection
+	 * @return True on successful ship spawn, false otherwise.
+	 */
 	public boolean addShip(Ship s, Position sternLocation, HEADING bowDirection)
 	{
 		int shipLength = s.getLength();
@@ -152,22 +158,62 @@ public class GameBoard
 		}
 
 		// If we made it this far, that means the ship will spawn on the board and without any collisions. Spawn the ship!
+		// Also create a new Position arraylist that holds the Positions, which gets passed to the ship to set its Positions.
+		ArrayList<Cell> allShipPositions = new ArrayList<Cell>();
 		for (Position spawnPosition : shipSpawn)
 		{
+			// Set the Ship reference for each Cell on game board
 			board[spawnPosition.x][spawnPosition.y].setShip(s);
+			// Add each Cell being referenced to the allShipPositions arraylist
+			allShipPositions.add(board[spawnPosition.x][spawnPosition.y]);			
 		}
-
+		// Provide references to all the Cells that the ship occupies to the ship itself
+		s.setPosition(allShipPositions);
+		// Add a reference to the ship to the gameboard object
+		this.myShips.add(s);
 		return true;
 	}
 	
-	//Returns A reference to a ship, if that ship was struck by a missle.
-	//The returned ship can then be used to print the name of the ship which
-	//was hit to the player who hit it.
-	//Ensure you handle missiles that may fly off the grid
-	//TODO: Write function
-	public Ship fireMissle( Position coordinate )
+	/**
+	 * Checks if missile hits a target and updates Cells respectively according to the Cell contents.
+	 * @param targetPosition
+	 * @return If missile hits ship, return ship. Else, return null. 
+	 */
+	public Ship fireMissle( Position targetPosition )
 	{
-		return (new Destroyer("name"));
+		// Check if the person fired off the board, maybe make fun of them if they do
+		if ((targetPosition.x > this.rowCount) || (targetPosition.y > this.colCount))
+		{
+			return null;
+		}
+
+		// Load cell that is being targeted
+		Cell targetCell = this.board[targetPosition.x][targetPosition.y];
+		
+		// Try and grab a reference to a ship if it exists from that Cell
+		Ship targetShip = targetCell.getShip();
+
+		// If targetShip exists and the Cell has not been hit already, damage the ship
+		if (!(targetCell.hasBeenStruckByMissile()) && (targetShip != null))
+		{
+
+			// Record missile hit to Cell
+			targetCell.hasBeenStruckByMissile(true);
+			System.out.println("A missile has hit a target");
+
+			// Check if that sunk the ship
+			if (!targetShip.isAlive())
+			{
+				System.out.println(targetShip.getName() + " has been sunk!");
+			}
+
+			// Return a reference to the damaged ship
+			return targetShip;
+		}
+
+		// Else, Cell hit but no ship damaged and return null
+		targetCell.hasBeenStruckByMissile(true);
+		return null;
 	}
 	
 	//Here's a simple driver that should work without touching any of the code below this point
