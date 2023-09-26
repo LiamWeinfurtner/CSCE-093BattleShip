@@ -57,14 +57,16 @@ public class GameBoard
 		{
 			for (int j=-1; j<this.colCount; j++)
 			{
-				if ((j == -1) || (j == this.colCount)) {boardDrawer.append('|');}
+				// Draws vertical line at the left side of the board, when row < 0
+				if (j == -1) {boardDrawer.append('|');}
 				else 
 				{
 					Cell c = this.board[i][j];
 					boardDrawer.append(c.draw());
 				}
 			}
-			// Row done, move to next row
+			// Row done, add vertical line and move to next row
+			boardDrawer.append("|");
 			boardDrawer.append(LINE_END);
 		}
 
@@ -87,37 +89,37 @@ public class GameBoard
 	{
 		int shipLength = s.getLength();
 		
-		// ArrayList will store all "Positions" of the ship first to compare things against
+		// ArrayList will the "Stern Position" of the ship first to compare things against
 		ArrayList<Position> shipSpawn = new ArrayList<Position>();
 
 		// Add the stern location to the shipSpawn, then extrude out the length in the opposite of the bowDirection
 		shipSpawn.add(sternLocation);
 		if (bowDirection == HEADING.NORTH)
 		{
-			for (int i=0; i<shipLength; i++)
+			for (int i=1; i<shipLength; i++)
 			{
 				shipSpawn.add(new Position(sternLocation.x, sternLocation.y-i));
 			}
 		}
 		else if (bowDirection == HEADING.EAST)
 		{
-			for (int i=0; i<shipLength; i++)
+			for (int i=1; i<shipLength; i++)
 			{
 				shipSpawn.add(new Position(sternLocation.x-i, sternLocation.y));
 			}
 		}
 		else if (bowDirection == HEADING.SOUTH)
 		{
-			for (int i=0; i<shipLength; i++)
+			for (int i=1; i<shipLength; i++)
 			{
-				shipSpawn.add(new Position(sternLocation.x+i, sternLocation.y));
+				shipSpawn.add(new Position(sternLocation.x, sternLocation.y+i));
 			}
 		}
 		else if (bowDirection == HEADING.WEST)
 		{
-			for (int i=0; i<shipLength; i++)
+			for (int i=1; i<shipLength; i++)
 			{
-				shipSpawn.add(new Position(sternLocation.x, sternLocation.y+i));
+				shipSpawn.add(new Position(sternLocation.x+i, sternLocation.y));
 			}
 		}
 
@@ -131,7 +133,7 @@ public class GameBoard
 			}
 			
 			// Check if too big
-			if ((checkPosition.x > rowCount-1) || (checkPosition.y > colCount-1));
+			if ((checkPosition.x > (this.rowCount-1)) || (checkPosition.y > (this.colCount-1)))
 			{
 				return false;
 			}
@@ -177,17 +179,20 @@ public class GameBoard
 		
 		Ship s = new Cruiser( "Cruiser" );
 		if( b.addShip(s, new Position(3,6), HEADING.WEST ) )
-			System.out.println( "Added " + s.getName() + "Location is " );
+			System.out.println( "Added " + s.getName() + " Location is ");
 		else
 			System.out.println( "Failed to add " + s.getName() );
 		
 		s = new Destroyer( "Vader" );
 		if( b.addShip(s, new Position(3,5), HEADING.NORTH ) )
-			System.out.println( "Added " + s.getName() + "Location is " );
+			System.out.println( "Added " + s.getName() + " Location is " );
 		else
 			System.out.println( "Failed to add " + s.getName() );
 		
 		System.out.println( b.draw() );
+
+		//-----------------------------------------
+		//Everthing above this line is implemented and works
 		
 		b.fireMissle( new Position(3,5) );
 		System.out.println( b.draw() );
