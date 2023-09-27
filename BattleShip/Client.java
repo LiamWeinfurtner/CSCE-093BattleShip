@@ -30,7 +30,7 @@ public class Client
 		this.out.println( "F 2 4" );
 		this.out.println( "Fires a missile at coordinate x=2, y=4." );
 		
-		while (true) // put Code Here to process in game commands, after each command, print the target board and game board w/ updated state )
+		while (this.processCommand()) // put Code Here to process in game commands, after each command, print the target board and game board w/ updated state )
 		{
 			out.println( "------------------------" );
 			out.println( "Target Board:" + this.targets.draw() );
@@ -39,6 +39,16 @@ public class Client
 			out.flush();
 			
 			//Perform test here to see if we have run or lost
+			if (this.allEnemyShipsAreDestroyed())
+			{
+				this.out.println("All enemy ships sunk, you are victorious!");
+				break;
+			}
+			else if (this.allMyShipsAreDestroyed())
+			{
+				this.out.println("All your ships have sunk, you have been defeated!");
+				break;
+			}
 		}
 	}
 	
@@ -57,7 +67,6 @@ public class Client
 	}
 
 	//Returns a bool, true iff all of the opponent's ships are destroyed
-	//TODO: Write function
 	boolean allEnemyShipsAreDestroyed()
 	{
 		for (Ship ship : targets.myShips)
@@ -73,23 +82,68 @@ public class Client
 	//"F 2 4" = Fire command
 	//"C Hello world, i am a chat message"
 	//"D" - Redraw the latest game and target boards
-	//TODO: Write function
 	boolean processCommand() throws IOException
 	{
+		String input = this.in.readLine();
+		String [] split = input.split("\\s+");
+
+		if (split[0].equals("F"))
+		{
+			return this.processFireCmd(split);
+		}
+		else if (split[0].equals("C"))
+		{
+			return this.processChatCmd(input);
+		}
+		else if (split[0].equals("D"))
+		{
+			;
+		}
+
+		else this.out.println("Invalid command. Please enter a valid command.");
+		
 		return true;
 	}
 	
 	//When a fire command is typed, this method parses the coordinates and launches a missle at the enemy
-	//TODO: Write function
 	boolean processFireCmd( String [] s )
 	{
+		// Create a new Position that holds the location to be fired on
+		Position fireLocation = new Position(Integer.parseInt(s[1]), Integer.parseInt(s[1]));
+		// Marks fired on location for the opponents board
+		this.targets.fireMissle(fireLocation);
+		// Using the reference to the other opponents board, call fireMissile from their client to affect their own board
+		// and check whether it was a valid hit on an opponent's ship
+		Ship targetShip = this.man.getOpponent(this).getGameBoard().fireMissle(fireLocation);
+
+		if (targetShip != null)
+		{
+			this.out.println("Successful missile hit on target ship " + targetShip.getName());
+
+			// Check if that sunk the enemy ship
+			if (!targetShip.isAlive())
+			{
+				this.out.println(targetShip.getName() + "has sunk!");
+			}
+		}
+		// Else, missed
+		else
+		{
+			this.out.println("Missile fired... and missed!");
+		}
+
 		return true;
 	}
 	
 	//Send a message to the opponent
-	//TODO: Write function
 	boolean processChatCmd( String s )
 	{
+		if (s.length() > 2)
+		{
+			this.man.getOpponent(this).out.println("Opponent said: " + s.substring(1).toString() ); 
+			this.man.getOpponent(this).out.flush();
+		}
+
 		return true;
 	}
 	
